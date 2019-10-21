@@ -9,19 +9,20 @@ export default class Button extends React.Component {
                style={[styles.btn, this.props.style]}
            >
                <Text style={styles.btnText}>{this.props.text}</Text>
-           </TouchableOpacity>
+               
+           </TouchableOpacity>          
        )
    }
 }
 const styles = StyleSheet.create({
    btn: {
-       height: 50,
-       width: 100,
+       height: 40,
+       width: 60,
        alignItems: 'center',
        justifyContent: 'center',
      },
      btnText: {
-       fontSize: 30,
+       fontSize: 20,
        color: "#fff"
      },
 })
