@@ -16,8 +16,8 @@ export default class Button extends React.Component {
 }
 const styles = StyleSheet.create({
    btn: {
-       height: 40,
-       width: 60,
+       height: 45,
+       width: 55,
        alignItems: 'center',
        justifyContent: 'center',
      },
