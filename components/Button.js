@@ -3,14 +3,17 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
  
 export default class Button extends React.Component {
    render(){
+    
        return (
            <TouchableOpacity
                onPress={this.props.function}
                style={[styles.btn, this.props.style]}
-           >
+            >
+           
                <Text style={styles.btnText}>{this.props.text}</Text>
                
-           </TouchableOpacity>          
+           </TouchableOpacity>  
+                   
        )
    }
 }
