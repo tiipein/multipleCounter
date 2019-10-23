@@ -3,6 +3,7 @@ import { StyleSheet,
     Text, 
     View, 
     KeyboardAvoidingView,
+    ScrollView,
     StatusBar,  
     Platform,
     TouchableOpacity, 
@@ -22,6 +23,18 @@ const StatusBarHeight = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
 const storage = new Storage({
   storageBackend: AsyncStorage
 })
+
+var array1 = [0];
+var lap1 = [];
+
+var array2 = [0];
+var lap2 = [];
+
+var array3 = [0];
+var lap3 = [];
+
+var array4 = [0];
+var lap4 = [];
 
 export default class App extends React.Component{
 
@@ -66,6 +79,39 @@ resetStopwatch() {
 
 resetStartStopWatch() {
   console.log(CURRENTTIME);
+}
+
+
+lapTime1() {  // lapTime  // 変えた
+  CURRENTTIME = CURRENTTIME.replace(/:/g, '');
+  array1.push(CURRENTTIME);
+  lap1.push((Number(CURRENTTIME) - Number(array1[array1.length - 2])) / 1000);  // - array[Number(array.length) - 1]
+  console.log(lap1);
+  console.log(lap1[lap1.length - 1])
+}
+
+lapTime2() {
+  CURRENTTIME = CURRENTTIME.replace(/:/g, '');
+  array2.push(CURRENTTIME);
+  lap2.push((Number(CURRENTTIME) - Number(array2[array2.length - 2])) / 1000);
+  console.log(lap2);
+  console.log(lap2[lap2.length - 1])
+}
+
+lapTime3() {
+  CURRENTTIME = CURRENTTIME.replace(/:/g, '');
+  array3.push(CURRENTTIME);
+  lap3.push((Number(CURRENTTIME) - Number(array3[array3.length - 2])) / 1000);
+  console.log(lap3);
+  console.log(lap3[lap3.length - 1])
+}
+
+lapTime4() {
+  CURRENTTIME = CURRENTTIME.replace(/:/g, '');
+  array4.push(CURRENTTIME);
+  lap4.push((Number(CURRENTTIME) - Number(array4[array4.length - 2])) / 1000);
+  console.log(lap4);
+  console.log(lap4[lap4.length - 1])
 }
 
 // AsyncStorage からCURRENTTIME を読み込む
@@ -114,10 +160,30 @@ loadCurrentTime = async () => {
     }
   }
 
- plus1 = () => {
+ 
+
+
+//  plus1 = () => {
+//    if(this.state.counter1 = 0){
+//      this.setState({
+//     counter1: this.state.counter1 + 1,
+//     isStopwatchStart: !this.state.isStopwatchStart,
+//   })
+// } else {
+//   this.setState({
+//     counter1: this.state.counter1 + 1,
+//   })
+// }
+//  }
+plus1 = () => {
   this.setState({
     counter1: this.state.counter1 + 1
   })
+  this.setState({
+    isStopwatchStart: true,
+    resetStopwatch: false,
+})
+this.lapTime1()
 }
 
 minus1 = () => {
@@ -131,6 +197,8 @@ reset1 = () =>  {
    this.setState({
      counter1: this.state.counter1 = 0
    })
+   array1 = [0];
+   lap1 = [];
  };
 
  plus2 = () => {
@@ -150,12 +218,21 @@ reset2 = () =>  {
    this.setState({
      counter2: this.state.counter2 = 0
    })
- };
+  
+    array2 = [0];
+    lap2 = [];
+}
+
 
  plus3 = () => {
   this.setState({
     counter3: this.state.counter3 + 1
   })
+  this.setState({
+    isStopwatchStart: true,
+    resetStopwatch: false,
+})
+this.lapTime3()
 }
 
 minus3 = () => {
@@ -169,12 +246,19 @@ reset3 = () =>  {
    this.setState({
      counter3: this.state.counter3 = 0
    })
+   array3 = [0];
+   lap3 = [];
  };
 
  plus4 = () => {
   this.setState({
     counter4: this.state.counter4 + 1
   })
+  this.setState({
+    isStopwatchStart: true,
+    resetStopwatch: false,
+})
+this.lapTime4()
 }
 
 minus4 = () => {
@@ -188,15 +272,22 @@ reset4 = () =>  {
    this.setState({
      counter4: this.state.counter4 = 0
    })
+   array4 = [0];
+   lap4 = [];
  };
 
  render(){
     const platform = Platform.OS === 'ios' ? 'ios':'android';
-    
+
+    console.log(this.state.inputText1);
+    console.log(this.state.inputText2);
+    console.log(this.state.inputText3);
+    console.log(this.state.inputText4);
+  
 
 return (
   <KeyboardAvoidingView style={styles.container} behavior="padding"> 
-    <View  style={styles.content}>
+    <ScrollView  style={styles.content}>
 
   
     <View style={styles.input}>
@@ -204,14 +295,19 @@ return (
         style={styles.inputText}
         onChangeText={(text) => this.setState({inputText1: text})}
         value={this.state.inputText1}
+        
+        
       />
+     
     </View>
           <Text style={styles.counter}>{this.state.counter1}</Text>
           <View style={styles.btnWrap}>
+         
             <Button
               text="+"
               function={this.plus1}
               style={{backgroundColor: "blue"}}
+              
             />
             <Button
               text="-"
@@ -224,9 +320,9 @@ return (
                 style={{backgroundColor:"#00a968"}}>
               </Button>
           </View>  
-    </View>
+    </ScrollView>
 
-    <View style={styles.content}>
+    <ScrollView style={styles.content}>
       <View style={styles.input}>
         <Input 
           style={styles.inputText}
@@ -254,9 +350,9 @@ return (
                 style={{backgroundColor:"#00a968"}}>
             </Button>
       </View> 
-      </View>
+      </ScrollView>
 
-      <View style={styles.content}> 
+      <ScrollView style={styles.content}> 
       <View style={styles.input}>
       <Input 
         style={styles.inputText}
@@ -282,9 +378,9 @@ return (
                 style={{backgroundColor:"#00a968"}}>
             </Button>
       </View>
-      </View> 
+      </ScrollView> 
 
-      <View style={styles.content}>
+      <ScrollView style={styles.content}>
       <View style={styles.input}>
       <Input 
         style={styles.inputText}
@@ -310,8 +406,8 @@ return (
                 style={{backgroundColor:"#00a968"}}>
             </Button>
       </View> 
-      </View>
-            <View  style={styles.content}>
+      </ScrollView>
+            <ScrollView  style={styles.content}>
               <View style={styles.display}>
               
                 <Stopwatch laps msecs
@@ -332,35 +428,38 @@ return (
                 <TouchableHighlight onPress={this.resetStopwatch}>
                     <Text style={{ fontSize: 40, marginTop: 10, color: "#F00" }}>■</Text>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={this.resetStartStopWatch}>
+                {/* <TouchableHighlight onPress={this.resetStartStopWatch}>
                     <Text style={{ fontSize: 45, marginTop: 10, color: "#F00" }}>♦</Text>
-                </TouchableHighlight>
+                </TouchableHighlight> */}
             </View >
-          </View>
+          </ScrollView>
       
     </KeyboardAvoidingView>);}
     }
 
+
 const styles = StyleSheet.create({
  container: {
    flexDirection: 'row',
-   flex: 0.3,
    backgroundColor: '#fff',
    alignItems: 'center',
    justifyContent: 'center',
    display: 'flex',
+   flex: 1,
    flexWrap: 'wrap',
    paddingTop: StatusBarHeight,
  },
  counter: {
-   fontSize: 60,
+   fontSize: 50,
    paddingLeft: 75,
-   paddingBottom:30,
+   paddingTop:35,
+   height: 120,
  },
 
  btnWrap: {
    flexDirection: "row",
   paddingLeft: 10, 
+  paddingBottom:20,
  },
 
  plusBtn: {
@@ -378,11 +477,13 @@ input:{
   margin:10,
   width:160,  
   alignItems:"center", 
-  flex:1, 
+  flex:2, 
   
 },
 content:{
+  height:220,
   width:200,
+  
 },
 
 inputText:{
@@ -397,14 +498,7 @@ display: {
   justifyContent: 'center'
 },
 
-
-
 });
-
-
-
-  
- 
 
 const options = {
   container: {
