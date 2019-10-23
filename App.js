@@ -482,7 +482,7 @@ input:{
 },
 content:{
   height:220,
-  width:200,
+  width:'50%',
   
 },
 
