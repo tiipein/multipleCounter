@@ -1,4 +1,5 @@
 import React,{ Component } from 'react';
+import Swiper from 'react-native-swiper';
 import { StyleSheet, 
     Text, 
     View, 
@@ -11,6 +12,7 @@ import { StyleSheet,
     AsyncStorage}from 'react-native';
 import { Input} from 'react-native-elements';
 import Button from "./components/Button";
+import LogsApp from "./components/logs";
 // import TestApp from "./components/Stopwatch";
 import Storage from 'react-native-storage';
 import { AuthSession } from 'expo';
@@ -36,6 +38,8 @@ var lap3 = [];
 var array4 = [0];
 var lap4 = [];
 
+
+
 export default class App extends React.Component{
 
  constructor(props){
@@ -60,6 +64,8 @@ export default class App extends React.Component{
 
   // this.constructor.displayNameで、自身のクラス名を取得
   className = this.constructor.displayName
+
+  
 
   componentDidMount = () => {
     this.setInitialState()
@@ -87,14 +93,19 @@ lapTime1() {  // lapTime  // 変えた
   array1.push(CURRENTTIME);
   lap1.push((Number(CURRENTTIME) - Number(array1[array1.length - 2])) / 1000);  // - array[Number(array.length) - 1]
   console.log(lap1);
-  console.log(lap1[lap1.length - 1])
+  console.log(this.state.inputText1);
+  
+  timeDisplay = console.log(lap1[lap1.length - 1])
 }
+
+
 
 lapTime2() {
   CURRENTTIME = CURRENTTIME.replace(/:/g, '');
   array2.push(CURRENTTIME);
   lap2.push((Number(CURRENTTIME) - Number(array2[array2.length - 2])) / 1000);
   console.log(lap2);
+  console.log(this.state.inputText2);
   console.log(lap2[lap2.length - 1])
 }
 
@@ -103,6 +114,7 @@ lapTime3() {
   array3.push(CURRENTTIME);
   lap3.push((Number(CURRENTTIME) - Number(array3[array3.length - 2])) / 1000);
   console.log(lap3);
+  console.log(this.state.inputText3);
   console.log(lap3[lap3.length - 1])
 }
 
@@ -111,6 +123,7 @@ lapTime4() {
   array4.push(CURRENTTIME);
   lap4.push((Number(CURRENTTIME) - Number(array4[array4.length - 2])) / 1000);
   console.log(lap4);
+  console.log(this.state.inputText4);
   console.log(lap4[lap4.length - 1])
 }
 
@@ -157,8 +170,10 @@ loadCurrentTime = async () => {
         key: this.className,
         data: this.state
       })
+     
     }
   }
+  
 
  
 
@@ -205,6 +220,11 @@ reset1 = () =>  {
   this.setState({
     counter2: this.state.counter2 + 1
   })
+  this.setState({
+    isStopwatchStart: true,
+    resetStopwatch: false,
+})
+  this.lapTime2()
 }
 
 minus2 = () => {
@@ -279,15 +299,12 @@ reset4 = () =>  {
  render(){
     const platform = Platform.OS === 'ios' ? 'ios':'android';
 
-    console.log(this.state.inputText1);
-    console.log(this.state.inputText2);
-    console.log(this.state.inputText3);
-    console.log(this.state.inputText4);
-  
-
 return (
+  <Swiper showsButtons={false}
+  dotColor="#FFFFFF55"
+  activeDotColor="#FFFFFFFF">
   <KeyboardAvoidingView style={styles.container} behavior="padding"> 
-    <ScrollView  style={styles.content}>
+    <View   style={styles.content}>
 
   
     <View style={styles.input}>
@@ -320,9 +337,9 @@ return (
                 style={{backgroundColor:"#00a968"}}>
               </Button>
           </View>  
-    </ScrollView>
+    </View >
 
-    <ScrollView style={styles.content}>
+    <View  style={styles.content}>
       <View style={styles.input}>
         <Input 
           style={styles.inputText}
@@ -350,9 +367,9 @@ return (
                 style={{backgroundColor:"#00a968"}}>
             </Button>
       </View> 
-      </ScrollView>
+      </View >
 
-      <ScrollView style={styles.content}> 
+      <View  style={styles.content}> 
       <View style={styles.input}>
       <Input 
         style={styles.inputText}
@@ -378,9 +395,9 @@ return (
                 style={{backgroundColor:"#00a968"}}>
             </Button>
       </View>
-      </ScrollView> 
+      </View > 
 
-      <ScrollView style={styles.content}>
+      <View  style={styles.content}>
       <View style={styles.input}>
       <Input 
         style={styles.inputText}
@@ -406,8 +423,8 @@ return (
                 style={{backgroundColor:"#00a968"}}>
             </Button>
       </View> 
-      </ScrollView>
-            <ScrollView  style={styles.content}>
+      </View >
+            <View   style={styles.content}>
               <View style={styles.display}>
               
                 <Stopwatch laps msecs
@@ -432,11 +449,19 @@ return (
                     <Text style={{ fontSize: 45, marginTop: 10, color: "#F00" }}>♦</Text>
                 </TouchableHighlight> */}
             </View >
-          </ScrollView>
-      
-    </KeyboardAvoidingView>);}
-    }
+          </View >
 
+    </KeyboardAvoidingView>
+
+    <View>
+      <Text>log</Text>
+      {/* <Text>storage.load({key})</Text>    */}
+      
+    </View>
+    
+    </Swiper>
+    );}
+    }
 
 const styles = StyleSheet.create({
  container: {
@@ -514,19 +539,3 @@ const options = {
       marginLeft: 7,
   }
 }; 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
